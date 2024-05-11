@@ -15,8 +15,8 @@
       </svg>
     </button>
     <div class="header__container-contact">
-      <img src="@/assets/icon.jpg" alt="icon" class="header__icon-img" />
-      <span class="header__name-contact">Kevin Doors</span>
+      <img src="@/assets/icon2.png" alt="icon" class="header__icon-img" />
+      <span class="header__name-contact">Blond Treehorn Thug</span>
     </div>
     <button class="header__btn-menu">
       <svg
@@ -41,7 +41,26 @@
       </svg>
     </button>
   </header>
-  <main class="main"></main>
+  <main class="main">
+    <div
+      class="message"
+      v-for="(message, index) in messages"
+      :key="index"
+      :class="messageleft(message.id) ? 'left' : 'right'"
+    >
+      <p
+        class="message__text"
+        :class="messageleft(message.id) ? 'text-left' : 'text-right'"
+      >
+        {{ message.text }}
+      </p>
+      <span
+        class="message__time"
+        :class="messageleft(message.id) ? 'time-left' : 'time-right'"
+        >{{ message.time }}</span
+      >
+    </div>
+  </main>
   <footer class="footer">
     <button class="footer__btn-add footer-btn">
       <svg
@@ -59,7 +78,12 @@
         />
       </svg>
     </button>
-    <input type="text" class="footer__input-message" />
+    <input
+      type="text"
+      class="footer__input-message"
+      v-model="inputModel"
+      @keyup.enter="inputMessage"
+    />
     <div class="footer__container-btn-right">
       <button class="footer__btn-camera footer-btn">
         <svg
@@ -95,7 +119,54 @@
   </footer>
 </template>
 
-<script></script>
+<script>
+import { ref, watch } from "vue";
+
+export default {
+  setup() {
+    const messages = ref([
+      { id: 1, text: `Where's the fucking money Lebowski?`, time: "12:02" },
+      { id: 1, text: `Where's the fucking money Lebowski?`, time: "12:04" },
+      { id: 1, text: `Where's the fucking money Lebowski?`, time: "12:05" },
+      { id: 1, text: `Where's the fucking money Lebowski?`, time: "12:08" },
+      { id: 1, text: `Where's the fucking money Lebowski?`, time: "12:09" },
+      { id: 1, text: `Where's the fucking money Lebowski?`, time: "12:11" },
+      { id: 1, text: `Where's the fucking money Lebowski?`, time: "12:13" },
+      { id: 1, text: `Where's the fucking money Lebowski?`, time: "12:14" },
+      { id: 1, text: `Where's the fucking money Lebowski?`, time: "12:15" },
+    ]);
+
+    const messageleft = (id) => {
+      if (id === 1) {
+        return true;
+      }
+      return false;
+    };
+    const inputModel = ref("");
+
+    const inputMessage = () => {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, "0");
+      const minutes = now.getMinutes().toString().padStart(2, "0");
+      const formattedTime = `${hours}:${minutes}`;
+      const message = {
+        id: 2,
+        text: inputModel.value,
+        time: formattedTime,
+      };
+      messages.value.push(message);
+      inputModel.value = "";
+    };
+
+    return {
+      messages,
+      messageleft,
+      inputMessage,
+      inputModel,
+    };
+  },
+};
+</script>
 
 <style>
 * {
@@ -104,12 +175,17 @@
   box-sizing: border-box;
 }
 body {
-	height: 100%;
+  height: 100%;
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+  background-color: #131313;
 }
 
 #app {
   position: relative;
   height: 100svh;
+  overflow: hidden;
 }
 
 .header {
@@ -141,6 +217,8 @@ body {
   width: 36px;
   aspect-ratio: 1/1;
   border-radius: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .header__name-contact {
@@ -165,8 +243,64 @@ body {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-
+  padding: 69px 10px;
+  overflow: scroll;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
+
+.left {
+  grid-column-start: 1; /* Начало в первой колонке */
+  grid-column-end: 3; /* Конец во второй колонке */
+}
+
+.right {
+  grid-column-start: 2; /* Начало в третьей колонке */
+  grid-column-end: 4; /* Конец в четвертой колонке */
+}
+
+.message {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+.message__text {
+  display: inline;
+
+  width: auto;
+  border-radius: 25px 25px 25px 0;
+  padding: 10px 10px 10px 20px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 147%;
+  letter-spacing: 0.03em;
+  color: #fff;
+}
+
+.text-right {
+  border-radius: 25px 25px 0 25px;
+  background-color: #1c6d78;
+}
+
+.text-left {
+  border-radius: 25px 25px 25px 0;
+  background-color: #131313;
+}
+
+.message__time {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-size: 10px;
+  line-height: 220%;
+  color: #eae6e6;
+}
+
+.time-right {
+  text-align: end;
+}
+
 .footer {
   width: 100%;
   height: 59px;
@@ -179,7 +313,6 @@ body {
   justify-content: space-between;
   position: absolute;
   bottom: 0;
-  
 }
 
 .footer__container-btn-right {
