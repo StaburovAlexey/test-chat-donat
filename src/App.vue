@@ -155,31 +155,108 @@
       </div>
       <div class="send-money" v-else>
         <div>
-          <img src="@/assets/icon2.png" alt="icon" class="send-money__icon-img" />
-          <span class="send-money__text">отправить</span>
+          <div class="send-money__info">
+            <img
+              src="@/assets/icon2.png"
+              alt="icon"
+              class="send-money__icon-img"
+            />
+            <span class="send-money__text">Отправить Blond Treehorn Thug</span>
+          </div>
+          <span class="send-money__sum">{{ nullSend }} USD</span>
+          <p class="send-money__sum-error send-money__sum-error-active">
+            Недостаточно средств на балансе
+          </p>
         </div>
-        <span class="send-money__sum"></span>
-        <ul class="keyboard-number">
-          <li><button class="keyboard-number__key">1</button></li>
-          <li><button class="keyboard-number__key">2</button></li>
-          <li><button class="keyboard-number__key">3</button></li>
-          <li><button class="keyboard-number__key">4</button></li>
-          <li><button class="keyboard-number__key">5</button></li>
-          <li><button class="keyboard-number__key">6</button></li>
-          <li><button class="keyboard-number__key">7</button></li>
-          <li><button class="keyboard-number__key">8</button></li>
-          <li><button class="keyboard-number__key">9</button></li>
-          <li><button class="keyboard-number__key"></button></li>
-          <li><button class="keyboard-number__key">0</button></li>
-          <li><button class="keyboard-number__key backspace"></button></li>
-        </ul>
+        <div class="keyboard-number">
+          <button class="keyboard-number__key">1</button>
+          <button class="keyboard-number__key">2</button>
+          <button class="keyboard-number__key">3</button>
+          <button class="keyboard-number__key">4</button>
+          <button class="keyboard-number__key">5</button>
+          <button class="keyboard-number__key">6</button>
+          <button class="keyboard-number__key">7</button>
+          <button class="keyboard-number__key">8</button>
+          <button class="keyboard-number__key">9</button>
+          <button class="keyboard-number__key">.</button>
+          <button class="keyboard-number__key">0</button>
+          <button class="keyboard-number__key backspace"></button>
+        </div>
+        <section class="send-money__container">
+          <div class="send-money__balance">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              version="1.1"
+              width="36px"
+              height="36px"
+              viewBox="0 0 256 256"
+              xml:space="preserve"
+            >
+              <defs></defs>
+              <g
+                style="
+                  stroke: none;
+                  stroke-width: 0;
+                  stroke-dasharray: none;
+                  stroke-linecap: butt;
+                  stroke-linejoin: miter;
+                  stroke-miterlimit: 10;
+                  fill: none;
+                  fill-rule: nonzero;
+                  opacity: 1;
+                "
+                transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"
+              >
+                <circle
+                  cx="45"
+                  cy="45"
+                  r="45"
+                  style="
+                    stroke: none;
+                    stroke-width: 1;
+                    stroke-dasharray: none;
+                    stroke-linecap: butt;
+                    stroke-linejoin: miter;
+                    stroke-miterlimit: 10;
+                    fill: rgb(75, 174, 79);
+                    fill-rule: nonzero;
+                    opacity: 1;
+                  "
+                  transform="  matrix(1 0 0 1 0 0) "
+                />
+                <path
+                  d="M 46.656 43 h -3.313 c -3.635 0 -6.592 -2.809 -6.592 -6.262 v -3.669 c 0 -3.453 2.957 -6.262 6.592 -6.262 h 3.745 c 3.396 0 6.159 2.623 6.159 5.846 c 0 1.104 0.896 2 2 2 s 2 -0.896 2 -2 c 0 -5.429 -4.558 -9.846 -10.159 -9.846 H 47 V 18 c 0 -1.104 -0.896 -2 -2 -2 s -2 0.896 -2 2 v 4.824 c -5.681 0.178 -10.248 4.699 -10.248 10.245 v 3.669 C 32.752 42.396 37.503 47 43.344 47 h 3.313 c 3.635 0 6.592 2.81 6.592 6.263 v 3.669 c 0 3.453 -2.957 6.262 -6.592 6.262 h -3.746 c -3.396 0 -6.159 -2.622 -6.159 -5.846 c 0 -1.104 -0.896 -2 -2 -2 s -2 0.896 -2 2 c 0 5.429 4.557 9.846 10.159 9.846 H 43 V 72 c 0 1.104 0.896 2 2 2 s 2 -0.896 2 -2 v -4.824 c 5.681 -0.178 10.248 -4.699 10.248 -10.245 v -3.669 C 57.248 47.604 52.497 43 46.656 43 z"
+                  style="
+                    stroke: none;
+                    stroke-width: 1;
+                    stroke-dasharray: none;
+                    stroke-linecap: butt;
+                    stroke-linejoin: miter;
+                    stroke-miterlimit: 10;
+                    fill: rgb(255, 255, 255);
+                    fill-rule: nonzero;
+                    opacity: 1;
+                  "
+                  transform=" matrix(1 0 0 1 0 0) "
+                  stroke-linecap="round"
+                />
+              </g>
+            </svg>
+            <div class="send-money__balance-info">
+              <p class="send-money__balance-text">Ваш баланс</p>
+              <span class="send-money__balance-money">100 USD</span>
+            </div>
+          </div>
+          <button class="send-money__btn-send">Отправить</button>
+        </section>
       </div>
     </transition>
   </footer>
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 
 export default {
   setup() {
@@ -193,14 +270,15 @@ export default {
       },
     ]);
     const openFooter = ref(true);
+    const inputModel = ref("");
+    const sumSend = ref("");
+
     const messageleft = (id) => {
       if (id === 1) {
         return true;
       }
       return false;
     };
-    const inputModel = ref("");
-
     const inputMessage = () => {
       const now = new Date();
       const hours = now.getHours().toString().padStart(2, "0");
@@ -223,6 +301,28 @@ export default {
       openFooter.value = false;
     };
 
+    const nullSend = computed(() => {
+      if (sumSend.value === "") {
+        return 0;
+      }
+
+      return sumSend.value
+    });
+
+    
+
+    onMounted(() => {
+      const keyboard = document.querySelectorAll(".keyboard-number__key");
+      keyboard.forEach((key) => {
+        key.addEventListener("click", () => {
+          if (key.textContent == "") {
+            sumSend.value = sumSend.value.slice(0, -1);
+          }
+          sumSend.value += key.textContent;
+        });
+      });
+    });
+
     return {
       messages,
       messageleft,
@@ -231,6 +331,8 @@ export default {
       openFooter,
       activatedFooter,
       diactivatedFooter,
+      sumSend,
+      nullSend
     };
   },
 };
@@ -260,6 +362,50 @@ body {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+@keyframes myAnim {
+  0% {
+    animation-timing-function: ease-in;
+    opacity: 0;
+    transform: translateY(-250px);
+  }
+
+  38% {
+    animation-timing-function: ease-out;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  55% {
+    animation-timing-function: ease-in;
+    transform: translateY(-65px);
+  }
+
+  72% {
+    animation-timing-function: ease-out;
+    transform: translateY(0);
+  }
+
+  81% {
+    animation-timing-function: ease-in;
+    transform: translateY(-28px);
+  }
+
+  90% {
+    animation-timing-function: ease-out;
+    transform: translateY(0);
+  }
+
+  95% {
+    animation-timing-function: ease-in;
+    transform: translateY(-8px);
+  }
+
+  100% {
+    animation-timing-function: ease-out;
+    transform: translateY(0);
+  }
 }
 
 .header {
@@ -466,10 +612,6 @@ body {
   opacity: 0;
 }
 
-.send-money {
-  width: 100%;
-}
-
 .keyboard-number {
   margin: 0 auto;
   width: 70%;
@@ -501,5 +643,101 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+}
+
+.send-money {
+  width: 100%;
+  padding: 15px;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.send-money__info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.send-money__icon-img {
+  width: 24px;
+  aspect-ratio: 1/1;
+  border-radius: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.send-money__text {
+  font-size: 0.8rem;
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+}
+
+.send-money__sum {
+  font-size: 2rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  color: white;
+}
+
+.send-money__sum-error {
+  color: red;
+  font-size: 12px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  margin-top: 6px;
+  display: block;
+  height: 12px;
+  opacity: 0;
+}
+
+.send-money__sum-error-active {
+  opacity: 1;
+  animation: myAnim 0.5s ease 0s 1 normal forwards;
+}
+
+.send-money__balance {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.send-money__balance-info {
+  display: flex;
+  flex-direction: column;
+  font-family: "Roboto", sans-serif;
+}
+.send-money__balance-text {
+  color: grey;
+  font-size: 1rem;
+}
+.send-money__balance-money {
+  color: white;
+}
+
+.send-money__btn-send {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #0079ff;
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.send-money__container {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 </style>
