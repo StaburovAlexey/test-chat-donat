@@ -154,7 +154,25 @@
         </div>
       </div>
       <div class="send-money" v-else>
-      <div class="send-money"></div>
+        <div>
+          <img src="@/assets/icon2.png" alt="icon" class="send-money__icon-img" />
+          <span class="send-money__text">отправить</span>
+        </div>
+        <span class="send-money__sum"></span>
+        <ul class="keyboard-number">
+          <li><button class="keyboard-number__key">1</button></li>
+          <li><button class="keyboard-number__key">2</button></li>
+          <li><button class="keyboard-number__key">3</button></li>
+          <li><button class="keyboard-number__key">4</button></li>
+          <li><button class="keyboard-number__key">5</button></li>
+          <li><button class="keyboard-number__key">6</button></li>
+          <li><button class="keyboard-number__key">7</button></li>
+          <li><button class="keyboard-number__key">8</button></li>
+          <li><button class="keyboard-number__key">9</button></li>
+          <li><button class="keyboard-number__key"></button></li>
+          <li><button class="keyboard-number__key">0</button></li>
+          <li><button class="keyboard-number__key backspace"></button></li>
+        </ul>
       </div>
     </transition>
   </footer>
@@ -174,7 +192,7 @@ export default {
         time: "12:05",
       },
     ]);
-    const openFooter = ref(false);
+    const openFooter = ref(true);
     const messageleft = (id) => {
       if (id === 1) {
         return true;
@@ -224,6 +242,7 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   height: 100%;
   width: 100%;
@@ -234,8 +253,9 @@ body {
 
 #app {
   position: relative;
+  display: flex;
+  flex-direction: column;
   height: 100svh;
-  overflow: hidden;
   background-image: url("@/assets/fon.jpg");
   background-position: center;
   background-size: cover;
@@ -293,9 +313,10 @@ body {
 
 .main {
   width: 100%;
-  max-height: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  /* flex: 1 0 auto; */
   padding: 69px 10px;
-  overflow: scroll;
   background-color: transparent;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -304,7 +325,8 @@ body {
 
 .main-close {
   position: relative;
-  height: calc(100%-359px);
+  /* height: calc(100%-359px); */
+  /* height: 100%; */
   padding: 69px 10px 359px;
   overflow: hidden;
 }
@@ -374,9 +396,10 @@ body {
   width: 100%;
   height: 59px;
   background: #131313;
-  margin-top: auto;
+  /* margin-top: auto; */
   position: absolute;
   bottom: 0;
+  flex: 0 0 auto;
   transition: all 0.3s ease-in-out;
   box-sizing: border-box;
 }
@@ -423,7 +446,7 @@ body {
 
 .footer-open {
   /* transform: translateY(-359px); */
-  height: 359px;
+  height: 559px;
   /* transition: transform 0.3s ease-in-out; */
 }
 
@@ -431,13 +454,52 @@ body {
   display: none;
 }
 
-.v-enter-active,
-.v-leave-active {
+.v-enter-active {
   transition: opacity 0.5s ease;
+}
+.v-leave-active {
+  transition: opacity 0.2s ease;
 }
 
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+.send-money {
+  width: 100%;
+}
+
+.keyboard-number {
+  margin: 0 auto;
+  width: 70%;
+  height: 250px;
+  list-style: none;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto auto auto;
+  text-align: center;
+  gap: 10px;
+}
+
+.keyboard-number__key {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  vertical-align: baseline;
+  background-color: #1c6d78;
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 1px 3px 6px 1px rgba(25, 156, 140, 0.51);
+  -webkit-box-shadow: 1px 3px 6px 1px rgba(25, 156, 140, 0.51);
+  -moz-box-shadow: 1px 3px 6px 1px rgba(25, 156, 140, 0.51);
+}
+
+.backspace {
+  background-image: url("@/assets/backspace.png");
+  background-size: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 </style>
