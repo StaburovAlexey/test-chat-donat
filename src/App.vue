@@ -164,23 +164,33 @@
             <span class="send-money__text">Отправить Blond Treehorn Thug</span>
           </div>
           <span class="send-money__sum">{{ nullSend }} USD</span>
-          <p class="send-money__sum-error send-money__sum-error-active">
+          <p
+            class="send-money__sum-error"
+            :class="checkBalance ? 'send-money__sum-error-active' : ''"
+          >
             Недостаточно средств на балансе
           </p>
         </div>
         <div class="keyboard-number">
-          <button class="keyboard-number__key">1</button>
-          <button class="keyboard-number__key">2</button>
-          <button class="keyboard-number__key">3</button>
-          <button class="keyboard-number__key">4</button>
-          <button class="keyboard-number__key">5</button>
-          <button class="keyboard-number__key">6</button>
-          <button class="keyboard-number__key">7</button>
-          <button class="keyboard-number__key">8</button>
-          <button class="keyboard-number__key">9</button>
-          <button class="keyboard-number__key">.</button>
-          <button class="keyboard-number__key">0</button>
-          <button class="keyboard-number__key backspace"></button>
+          <button
+            class="keyboard-number__key"
+            v-for="item in keys"
+            :key="item"
+            @click="click(item)"
+          >
+            {{ item }}
+          </button>
+          <!-- <button class="keyboard-number__key" ref="keys">2</button>
+          <button class="keyboard-number__key" ref="keys">3</button>
+          <button class="keyboard-number__key" ref="keys">4</button>
+          <button class="keyboard-number__key" ref="keys">5</button>
+          <button class="keyboard-number__key" ref="keys">6</button>
+          <button class="keyboard-number__key" ref="keys">7</button>
+          <button class="keyboard-number__key" ref="keys">8</button>
+          <button class="keyboard-number__key" ref="keys">9</button>
+          <button class="keyboard-number__key" ref="keys">.</button>
+          <button class="keyboard-number__key" ref="keys">0</button>
+          <button class="keyboard-number__key backspace" ref="keys"></button> -->
         </div>
         <section class="send-money__container">
           <div class="send-money__balance">
@@ -245,7 +255,7 @@
             </svg>
             <div class="send-money__balance-info">
               <p class="send-money__balance-text">Ваш баланс</p>
-              <span class="send-money__balance-money">100 USD</span>
+              <span class="send-money__balance-money">{{ balance }} USD</span>
             </div>
           </div>
           <button class="send-money__btn-send">Отправить</button>
@@ -256,7 +266,15 @@
 </template>
 
 <script>
-import { ref, watch, onMounted, computed } from "vue";
+import {
+  ref,
+  watch,
+  onMounted,
+  computed,
+  onUpdated,
+  onBeforeMount,
+  onBeforeUpdate,
+} from "vue";
 
 export default {
   setup() {
@@ -272,7 +290,15 @@ export default {
     const openFooter = ref(true);
     const inputModel = ref("");
     const sumSend = ref("");
+    const balance = ref(100);
+    const keys = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, ".", 0, ""]);
 
+    const click = (text) => {
+      if (text === "") {
+        sumSend.value = sumSend.value.slice(0, -1);
+      }
+      sumSend.value += text;
+    };
     const messageleft = (id) => {
       if (id === 1) {
         return true;
@@ -306,22 +332,18 @@ export default {
         return 0;
       }
 
-      return sumSend.value
+      return sumSend.value;
     });
 
-    
-
-    onMounted(() => {
-      const keyboard = document.querySelectorAll(".keyboard-number__key");
-      keyboard.forEach((key) => {
-        key.addEventListener("click", () => {
-          if (key.textContent == "") {
-            sumSend.value = sumSend.value.slice(0, -1);
-          }
-          sumSend.value += key.textContent;
-        });
-      });
+    const checkBalance = computed(() => {
+      const numberSumSend = Number(sumSend.value);
+      if (balance.value < numberSumSend) {
+        return true;
+      }
+      return false;
     });
+
+    onMounted(() => {});
 
     return {
       messages,
@@ -332,7 +354,11 @@ export default {
       activatedFooter,
       diactivatedFooter,
       sumSend,
-      nullSend
+      nullSend,
+      keys,
+      click,
+      balance,
+      checkBalance,
     };
   },
 };
