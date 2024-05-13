@@ -54,6 +54,13 @@
       :key="index"
       :class="messageleft(message.id) ? 'left' : 'right'"
     >
+      <div class="message__dolar" v-if="message.sum">
+        <img src="@/assets/gifDollar.gif" alt="" class="message__dolar-img" />
+        <img src="@/assets/gifDollar.gif" alt="" class="message__dolar-img" />
+        <img src="@/assets/gifDollar.gif" alt="" class="message__dolar-img" />
+        <img src="@/assets/gifDollar.gif" alt="" class="message__dolar-img" />
+        <img src="@/assets/gifDollar.gif" alt="" class="message__dolar-img" />
+      </div>
       <p
         class="message__text"
         :class="messageleft(message.id) ? 'text-left' : 'text-right'"
@@ -163,34 +170,20 @@
             />
             <span class="send-money__text">Отправить Blond Treehorn Thug</span>
           </div>
-          <span class="send-money__sum">{{ nullSend }} USD</span>
+          <input
+            type="number"
+            class="send-money__sum"
+            placeholder="0 USD"
+            min="0"
+            max="6"
+            v-model="sumSend"
+          />
           <p
             class="send-money__sum-error"
             :class="checkBalance ? 'send-money__sum-error-active' : ''"
           >
             Недостаточно средств на балансе
           </p>
-        </div>
-        <div class="keyboard-number">
-          <button
-            class="keyboard-number__key"
-            v-for="item in keys"
-            :key="item"
-            @click="click(item)"
-          >
-            {{ item }}
-          </button>
-          <!-- <button class="keyboard-number__key" ref="keys">2</button>
-          <button class="keyboard-number__key" ref="keys">3</button>
-          <button class="keyboard-number__key" ref="keys">4</button>
-          <button class="keyboard-number__key" ref="keys">5</button>
-          <button class="keyboard-number__key" ref="keys">6</button>
-          <button class="keyboard-number__key" ref="keys">7</button>
-          <button class="keyboard-number__key" ref="keys">8</button>
-          <button class="keyboard-number__key" ref="keys">9</button>
-          <button class="keyboard-number__key" ref="keys">.</button>
-          <button class="keyboard-number__key" ref="keys">0</button>
-          <button class="keyboard-number__key backspace" ref="keys"></button> -->
         </div>
         <section class="send-money__container">
           <div class="send-money__balance">
@@ -258,7 +251,13 @@
               <span class="send-money__balance-money">{{ balance }} USD</span>
             </div>
           </div>
-          <button class="send-money__btn-send">Отправить</button>
+          <button
+            class="send-money__btn-send"
+            :disabled="disabledBtn"
+            @click="sendMoney"
+          >
+            Отправить
+          </button>
         </section>
       </div>
     </transition>
@@ -266,15 +265,7 @@
 </template>
 
 <script>
-import {
-  ref,
-  watch,
-  onMounted,
-  computed,
-  onUpdated,
-  onBeforeMount,
-  onBeforeUpdate,
-} from "vue";
+import { ref, onMounted, computed } from "vue";
 
 export default {
   setup() {
@@ -287,18 +278,11 @@ export default {
         time: "12:05",
       },
     ]);
-    const openFooter = ref(true);
+    const openFooter = ref(false);
     const inputModel = ref("");
     const sumSend = ref("");
     const balance = ref(100);
-    const keys = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, ".", 0, ""]);
 
-    const click = (text) => {
-      if (text === "") {
-        sumSend.value = sumSend.value.slice(0, -1);
-      }
-      sumSend.value += text;
-    };
     const messageleft = (id) => {
       if (id === 1) {
         return true;
@@ -327,23 +311,34 @@ export default {
       openFooter.value = false;
     };
 
-    const nullSend = computed(() => {
-      if (sumSend.value === "") {
-        return 0;
-      }
-
-      return sumSend.value;
-    });
-
     const checkBalance = computed(() => {
-      const numberSumSend = Number(sumSend.value);
-      if (balance.value < numberSumSend) {
+      if (balance.value < sumSend.value) {
         return true;
       }
       return false;
     });
 
-    onMounted(() => {});
+    const disabledBtn = computed(() => {
+      if (!sumSend.value || checkBalance.value) {
+        return true;
+      }
+      return false;
+    });
+
+    const sendMoney = () => {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, "0");
+      const minutes = now.getMinutes().toString().padStart(2, "0");
+      const formattedTime = `${hours}:${minutes}`;
+      messages.value.push({
+        id: 2,
+        text: `Перевод денежных средств: ${sumSend.value} USD`,
+        time: formattedTime,
+        sum: sumSend.value
+      });
+      sumSend.value = "";
+      openFooter.value = false;
+    };
 
     return {
       messages,
@@ -354,11 +349,10 @@ export default {
       activatedFooter,
       diactivatedFooter,
       sumSend,
-      nullSend,
-      keys,
-      click,
       balance,
       checkBalance,
+      disabledBtn,
+      sendMoney,
     };
   },
 };
@@ -372,7 +366,7 @@ export default {
 }
 
 body {
-  height: 100%;
+  height: 100svh;
   width: 100%;
   max-width: 768px;
   margin: 0 auto;
@@ -542,6 +536,18 @@ body {
   color: #fff;
 }
 
+.message__dolar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.message__dolar-img {
+  width: 36px;
+  aspect-ratio: 1/1;
+}
+
 .text-right {
   border-radius: 25px 25px 0 25px;
   background-color: #1c6d78;
@@ -618,12 +624,16 @@ body {
 
 .footer-open {
   /* transform: translateY(-359px); */
-  height: 559px;
+  height: auto;
   /* transition: transform 0.3s ease-in-out; */
 }
 
 .footer-close {
   display: none;
+}
+
+.footer-conteiner {
+  position: relative;
 }
 
 .v-enter-active {
@@ -706,10 +716,14 @@ body {
 }
 
 .send-money__sum {
+  background-color: transparent;
+  width: 100%;
+  border: none;
+  outline: none;
+  color: #fff;
   font-size: 2rem;
   font-family: "Roboto", sans-serif;
   font-weight: 600;
-  color: white;
 }
 
 .send-money__sum-error {
@@ -759,11 +773,17 @@ body {
   padding: 10px;
 }
 
+.send-money__btn-send:disabled {
+  background-color: grey;
+  color: white;
+}
+
 .send-money__container {
   width: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin-top: 20px;
 }
 </style>
